@@ -1,209 +1,142 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Kuch Toh Hai...</title>
+    <title>Catch The Circle</title>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300&display=swap');
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            height: 100vh;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 75% 20%, rgba(255, 214, 145, 0.08), transparent 25%),
-                radial-gradient(circle at 20% 80%, rgba(90, 100, 180, 0.12), transparent 30%),
-                linear-gradient(135deg, #050611, #101326 50%, #080914);
-
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
             color: white;
-            font-family: 'Cormorant Garamond', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Stars */
-        .stars {
-            position: fixed;
+        .game-container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card h3 {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        #startBtn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #22c55e;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+
+        #startBtn:hover {
+            transform: scale(1.05);
+            background: #16a34a;
+        }
+
+        #gameArea {
+            height: 450px;
+            background: #020617;
+            border: 2px solid #334155;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #circle {
+            width: 50px;
+            height: 50px;
+            background: #ef4444;
+            border-radius: 50%;
+            position: absolute;
+            display: none;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.7);
+            transition: transform 0.1s;
+        }
+
+        #circle:hover {
+            transform: scale(1.15);
+        }
+
+        .message {
+            position: absolute;
             inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #64748b;
+            font-size: 20px;
             pointer-events: none;
         }
 
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: twinkle 3s infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.15;
-            }
-
-            50% {
-                opacity: 0.9;
-            }
-        }
-
-        /* Moon */
-        .moon {
-            position: absolute;
-            top: 9%;
-            right: 10%;
-            width: 125px;
-            height: 125px;
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(circle at 35% 35%, #fff8dc, #f6dfaa 55%, #d9b978);
-
-            box-shadow:
-                0 0 30px rgba(255, 226, 164, 0.25),
-                0 0 90px rgba(255, 220, 150, 0.12);
-
-            animation: moonGlow 5s ease-in-out infinite;
-        }
-
-        @keyframes moonGlow {
-            0%, 100% {
-                box-shadow:
-                    0 0 30px rgba(255, 226, 164, 0.25),
-                    0 0 90px rgba(255, 220, 150, 0.12);
-            }
-
-            50% {
-                box-shadow:
-                    0 0 45px rgba(255, 226, 164, 0.35),
-                    0 0 120px rgba(255, 220, 150, 0.16);
-            }
-        }
-
-        /* Main */
-        .container {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .poetry {
-            position: relative;
-            z-index: 2;
-            animation: appear 2.5s ease forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes appear {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .line {
-            font-size: clamp(35px, 5vw, 72px);
-            font-weight: 400;
-            letter-spacing: 1px;
-            line-height: 1.25;
-
-            text-shadow:
-                0 0 20px rgba(255,255,255,0.08);
-        }
-
-        .line:nth-child(2) {
-            margin-top: 12px;
-            color: #d8b98a;
-        }
-
-        /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 18px;
-            margin-top: 35px;
-            opacity: 0.7;
-        }
-
-        .divider span {
-            width: 65px;
-            height: 1px;
-            background: rgba(255,255,255,0.5);
-        }
-
-        .heart {
-            font-size: 20px;
-            animation: heartbeat 2s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-        }
-
-        /* Bottom glow */
-        .glow {
-            position: absolute;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-
-            width: 600px;
-            height: 300px;
-
-            background: rgba(87, 95, 170, 0.12);
-            filter: blur(90px);
-            border-radius: 50%;
-        }
-
-        /* Small subtitle */
-        .hint {
-            position: absolute;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-
-            color: rgba(255,255,255,0.28);
+        .game-over {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
         }
 
         @media (max-width: 600px) {
-
-            .moon {
-                width: 80px;
-                height: 80px;
-                top: 8%;
-                right: 8%;
+            h1 {
+                font-size: 30px;
             }
 
-            .line {
-                font-size: 36px;
+            #gameArea {
+                height: 350px;
             }
 
-            .divider span {
-                width: 40px;
+            .score-board {
+                flex-direction: row;
             }
         }
     </style>
@@ -211,79 +144,170 @@
 
 <body>
 
-    <!-- Stars -->
-    <div class="stars" id="stars"></div>
+    <div class="game-container">
 
-    <!-- Moon -->
-    <div class="moon"></div>
+        <h1>🎯 Catch The Circle</h1>
 
-    <!-- Bottom glow -->
-    <div class="glow"></div>
+        <p class="subtitle">
+            Click the red circle as many times as you can!
+        </p>
 
-    <!-- Poetry -->
-    <main class="container">
+        <div class="score-board">
 
-        <div class="poetry">
-
-            <div class="line">
-                Kuch toh hai jo neend aaye kam
+            <div class="card">
+                <h3>SCORE</h3>
+                <p id="score">0</p>
             </div>
 
-            <div class="line">
-                Kuch toh hai jo aankhe hai nam
+            <div class="card">
+                <h3>TIME</h3>
+                <p><span id="time">30</span>s</p>
             </div>
 
-            <div class="divider">
-                <span></span>
-                <div class="heart">♡</div>
-                <span></span>
+            <div class="card">
+                <h3>HIGH SCORE</h3>
+                <p id="highScore">0</p>
             </div>
 
         </div>
 
-    </main>
+        <button id="startBtn">
+            Start Game 🚀
+        </button>
 
-    <div class="hint">
-        some feelings need no words
+        <div id="gameArea">
+
+            <div class="message" id="message">
+                Press "Start Game" to begin
+            </div>
+
+            <div id="circle"></div>
+
+        </div>
+
+        <div class="game-over" id="gameOver"></div>
+
     </div>
 
 
     <script>
 
-        // Create random stars
-        const starsContainer = document.getElementById("stars");
+        const gameArea = document.getElementById("gameArea");
+        const circle = document.getElementById("circle");
 
-        for (let i = 0; i < 100; i++) {
+        const scoreElement = document.getElementById("score");
+        const timeElement = document.getElementById("time");
+        const highScoreElement = document.getElementById("highScore");
 
-            const star = document.createElement("div");
+        const startBtn = document.getElementById("startBtn");
+        const message = document.getElementById("message");
+        const gameOver = document.getElementById("gameOver");
 
-            star.classList.add("star");
+        let score = 0;
+        let time = 30;
+        let gameRunning = false;
+        let timer;
 
-            star.style.left = Math.random() * 100 + "%";
-            star.style.top = Math.random() * 100 + "%";
 
-            star.style.animationDelay =
-                Math.random() * 4 + "s";
+        // Load High Score
+        let highScore = localStorage.getItem("highScore") || 0;
+        highScoreElement.textContent = highScore;
 
-            star.style.animationDuration =
-                2 + Math.random() * 4 + "s";
 
-            starsContainer.appendChild(star);
+        // Start Game
+        startBtn.addEventListener("click", startGame);
+
+
+        function startGame() {
+
+            score = 0;
+            time = 30;
+            gameRunning = true;
+
+            scoreElement.textContent = score;
+            timeElement.textContent = time;
+
+            message.style.display = "none";
+            gameOver.textContent = "";
+
+            circle.style.display = "block";
+
+            startBtn.textContent = "Restart Game 🔄";
+
+            moveCircle();
+
+            clearInterval(timer);
+
+            timer = setInterval(() => {
+
+                time--;
+
+                timeElement.textContent = time;
+
+                if (time <= 0) {
+                    endGame();
+                }
+
+            }, 1000);
         }
 
 
-        // Very subtle mouse movement
-        document.addEventListener("mousemove", (e) => {
+        // Circle Click
+        circle.addEventListener("click", () => {
 
-            const x = (e.clientX / window.innerWidth - 0.5) * 10;
-            const y = (e.clientY / window.innerHeight - 0.5) * 10;
+            if (!gameRunning) return;
 
-            document.querySelector(".moon").style.transform =
-                `translate(${x}px, ${y}px)`;
+            score++;
 
-            document.querySelector(".poetry").style.transform =
-                `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            scoreElement.textContent = score;
+
+            moveCircle();
         });
+
+
+        // Move Circle Randomly
+        function moveCircle() {
+
+            const areaWidth = gameArea.clientWidth;
+            const areaHeight = gameArea.clientHeight;
+
+            const circleSize = circle.offsetWidth;
+
+            const maxX = areaWidth - circleSize;
+            const maxY = areaHeight - circleSize;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            circle.style.left = randomX + "px";
+            circle.style.top = randomY + "px";
+        }
+
+
+        // End Game
+        function endGame() {
+
+            gameRunning = false;
+
+            clearInterval(timer);
+
+            circle.style.display = "none";
+
+            gameOver.textContent =
+                `🎮 Game Over! Your Score: ${score}`;
+
+            // Update High Score
+            if (score > highScore) {
+
+                highScore = score;
+
+                localStorage.setItem("highScore", highScore);
+
+                highScoreElement.textContent = highScore;
+
+                gameOver.textContent += " 🏆 New High Score!";
+            }
+        }
 
     </script>
 
