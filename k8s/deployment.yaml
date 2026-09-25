@@ -1,1 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
 
+metadata:
+  name: ekstest-deployment
+  namespace: practice
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: ekstest
+
+  template:
+    metadata:
+      labels:
+        app: ekstest
+
+    spec:
+      containers:
+        - name: ekstest
+          image: 230235764463.dkr.ecr.us-east-1.amazonaws.com/himankrepo1:latest
+          ports:
+            - containerPort: 80
